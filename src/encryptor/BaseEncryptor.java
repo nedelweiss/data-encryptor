@@ -2,10 +2,10 @@ package encryptor;
 
 import cipher.CipherMethod;
 
-public abstract class BaseEncryptor {
-    protected CipherMethod cipherMethod;
+public abstract class BaseEncryptor<T> {
+    protected CipherMethod<T> cipherMethod;
 
-    public <T> String encrypt(String message, T key) {
+    public String encrypt(String message, T key) {
         return cipherMethod.doEncryption(message, key);
     }
 }
