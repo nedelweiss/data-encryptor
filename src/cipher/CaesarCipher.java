@@ -5,7 +5,7 @@ public class CaesarCipher implements CipherMethod<Integer> {
     public String doEncryption(String message, Integer key) {
         final StringBuilder encrypted = new StringBuilder();
         final char startingCharacter = 'a';
-        final int alphabetPower = 25;
+        final int alphabetPower = 26;
         for (char character : message.toCharArray()) {
             int originalAlphabetPosition = character - startingCharacter;
             int newAlphabetPosition = (originalAlphabetPosition + key) % alphabetPower;
