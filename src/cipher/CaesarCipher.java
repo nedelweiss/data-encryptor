@@ -7,9 +7,9 @@ public class CaesarCipher implements CipherMethod<Integer> {
         final char startingCharacter = 'a';
         final int alphabetPower = 26;
         for (char character : message.toCharArray()) {
-            int originalAlphabetPosition = character - startingCharacter;
-            int newAlphabetPosition = (originalAlphabetPosition + key) % alphabetPower;
-            char newCharacter = (char) (startingCharacter + newAlphabetPosition);
+            final int originalAlphabetPosition = character - startingCharacter;
+            final int newAlphabetPosition = (originalAlphabetPosition + key) % alphabetPower;
+            final char newCharacter = (char) (startingCharacter + newAlphabetPosition);
             encrypted.append(newCharacter);
         }
         return encrypted.toString();

@@ -1,6 +1,10 @@
 package cipher;
 
-import javax.crypto.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -20,12 +24,12 @@ public class AesCipher implements CipherMethod<String> {
     @Override
     public String doEncryption(String message, String key) {
         try {
-            SecretKey secretKey = getSecretKey(key);
+            final SecretKey secretKey = getSecretKey(key);
             final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-            byte[] messageInBytes = message.getBytes(CHARSET_UTF_8);
-            byte[] encryptedMessage = cipher.doFinal(messageInBytes);
+            final byte[] messageInBytes = message.getBytes(CHARSET_UTF_8);
+            final byte[] encryptedMessage = cipher.doFinal(messageInBytes);
 
             return Base64.getEncoder().encodeToString(encryptedMessage);
         } catch (GeneralSecurityException e) {
@@ -34,18 +38,18 @@ public class AesCipher implements CipherMethod<String> {
     }
 
     public String decrypt(SecretKey secretKey, String encryptedMessage) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance(HASHING_ALGORITHM);
+        final Cipher cipher = Cipher.getInstance(HASHING_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] decodedMessage = Base64.getDecoder().decode(encryptedMessage);
-        byte[] decryptedMessage = cipher.doFinal(decodedMessage);
+        final byte[] decodedMessage = Base64.getDecoder().decode(encryptedMessage);
+        final byte[] decryptedMessage = cipher.doFinal(decodedMessage);
         return new String(decryptedMessage);
     }
 
     private SecretKey getSecretKey(String secretKey) throws NoSuchAlgorithmException {
         final MessageDigest messageDigest = MessageDigest.getInstance(HASHING_ALGORITHM);
-        byte[] secretKeyInBytes = secretKey.getBytes(CHARSET_UTF_8);
+        final byte[] secretKeyInBytes = secretKey.getBytes(CHARSET_UTF_8);
         final byte[] hash = messageDigest.digest(secretKeyInBytes);
-        byte[] key = Arrays.copyOf(hash, 32);
+        final byte[] key = Arrays.copyOf(hash, 32);
         return new SecretKeySpec(key, CIPHER_ALGORITHM);
     }
 }
