@@ -1,5 +1,8 @@
 package cipher;
 
 public interface CipherMethod<T> {
-    String doEncryption(String message, T key);
+
+    String encrypt(String message, T key);
+
+    // TODO: create decrypt method
 }

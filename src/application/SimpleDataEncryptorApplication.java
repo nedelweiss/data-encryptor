@@ -1,4 +1,4 @@
-package mainapplication;
+package application;
 
 import encryptor.AesEncryptor;
 import encryptor.BaseEncryptor;
